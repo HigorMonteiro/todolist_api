@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 import os
 from decouple import config
 from unipath import Path
-from dj_database_url import parse as db_url
+import dj_database_url as db_url
 import django_heroku
 
 BASE_DIR = Path(__file__).parent
@@ -76,7 +76,7 @@ DATABASES = {
     'default': config(
         'DATABASE_URL',
         default='sqlite:///' + BASE_DIR.child('db.sqlite3'),
-        cast=db_url
+        cast=db_url.parse
     )
 }
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -118,3 +118,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 
 django_heroku.settings(locals())
+
+DATABASES = { 'default': db_url.config(ssl_require=False) }
