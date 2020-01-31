@@ -14,7 +14,7 @@ import os
 from decouple import config
 from unipath import Path
 from dj_database_url import parse as db_url
-
+import django_heroku
 
 BASE_DIR = Path(__file__).parent
 
@@ -114,4 +114,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
+
+django_heroku.settings(locals())
