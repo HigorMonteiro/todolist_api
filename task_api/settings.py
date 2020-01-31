@@ -73,11 +73,7 @@ WSGI_APPLICATION = 'task_api.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databaseDATABASES['default'] = dj_database_url.parse('DATABASE_URL', conn_max_age=600)
 
 DATABASES = {
-    'default': config(
-        'DATABASE_URL',
-        default='sqlite:///' + BASE_DIR.child('db.sqlite3'),
-        cast=db_url.parse
-    )
+    'default': config('DATABASE_URL', cast=db_url.parse)
 }
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 

@@ -1,4 +1,5 @@
 DEBUG=True
+ENV=development
 TEMPLATE_DEBUG=%(DEBUG)s
 SECRET_KEY=ARANDOMSECRETKEY
-DATABASE_URL=postgres://postgres:password@db/task_database
+DATABASE_URL=postgres://postgres:password@db:5432/test_db
