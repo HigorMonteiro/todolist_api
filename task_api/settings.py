@@ -22,11 +22,11 @@ SECRET_KEY = config('SECRET_KEY')
 
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = [
-    'localhost',
-    '127.0.0.1',
-    '0.0.0.0'
-]
+ADMINS = (
+    ('Higor', 'higor.tecinfor@gmail.com'),
+)
+
+ALLOWED_HOSTS = ['.heroku.com']
 # Application definition
 
 INSTALLED_APPS = [
