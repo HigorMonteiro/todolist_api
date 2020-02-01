@@ -29,5 +29,38 @@ class CreateAssignment(graphene.Mutation):
         return CreateAssignment(assignment=assignment)
 
 
+class UpdateAssignment(graphene.Mutation):
+    assignment = graphene.Field(AssignmentType)
+
+    class Arguments:
+        assignment_id = graphene.Int(required=True)
+        title = graphene.String()
+        description = graphene.String()
+
+    def mutate(self, info, assignment_id, title, description):
+        assignment = Assignment.objects.get(id=assignment_id)
+
+        assignment.title = title
+        assignment.description = description
+        assignment.save()
+
+        return UpdateAssignment(assignment=assignment)
+
+
+class DeleteAssignment(graphene.Mutation):
+    assignment_id = graphene.Int()
+
+    class Arguments:
+        assignment_id = graphene.Int(required=True)
+
+    def mutate(self, info, assignment_id):
+        assignment = Assignment.objects.get(id=assignment_id)
+        assignment.delete()
+
+        return DeleteAssignment(assignment_id=assignment_id)
+
+
 class Mutation(graphene.ObjectType):
     create_assignment = CreateAssignment.Field()
+    update_assignment = UpdateAssignment.Field()
+    delete_assignment = DeleteAssignment.Field()
