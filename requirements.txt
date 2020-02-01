@@ -5,3 +5,5 @@ python-decouple==3.3
 Unipath==1.1
 gunicorn
 django-heroku
+graphene-django>=2.0
+pytest-django
