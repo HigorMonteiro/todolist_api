@@ -15,3 +15,19 @@ class Query(graphene.ObjectType):
     def resolve_assignments(self, info):
         return Assignment.objects.all()
 
+
+class CreateAssignment(graphene.Mutation):
+    assignment = graphene.Field(AssignmentType)
+
+    class Arguments:
+        title = graphene.String()
+        description = graphene.String()
+
+    def mutate(self, info, title, description):
+        assignment = Assignment(title=title, description=description)
+        assignment.save()
+        return CreateAssignment(assignment=assignment)
+
+
+class Mutation(graphene.ObjectType):
+    create_assignment = CreateAssignment.Field()
