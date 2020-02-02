@@ -62,6 +62,7 @@ class CreateProject(graphene.Mutation):
 
 class UpdateAssignment(graphene.Mutation):
     assignment = graphene.Field(AssignmentType)
+    project = graphene.Field(ProjectType)
 
     class Arguments:
         assignment_id = graphene.Int(required=True)
@@ -71,13 +72,32 @@ class UpdateAssignment(graphene.Mutation):
 
     def mutate(self, info, assignment_id, title, description, project_by):
         assignment = Assignment.objects.get(id=assignment_id)
+        project = Project.objects.get(id=project_by)
+
+        if not project:
+            raise Exception('Cannot find project')
 
         assignment.title = title
         assignment.description = description
-        assignment.project_by = assignment
+        assignment.project_by = project
         assignment.save()
 
         return UpdateAssignment(assignment=assignment)
+
+
+class UpdateProject(graphene.Mutation):
+    project = graphene.Field(ProjectType)
+
+    class Arguments:
+        project_id = graphene.Int(required=True)
+        name = graphene.String()
+
+    def mutate(self, info, project_id, name):
+        project = Project.objects.get(id=project_id)
+        project.name = name
+        project.save()
+
+        return UpdateProject(project=project)
 
 
 class DeleteAssignment(graphene.Mutation):
@@ -93,8 +113,23 @@ class DeleteAssignment(graphene.Mutation):
         return DeleteAssignment(assignment_id=assignment_id)
 
 
+class DeleteProject(graphene.Mutation):
+    project_id = graphene.Int()
+
+    class Arguments:
+        project_id = graphene.Int(required=True)
+
+    def mutate(self, info, project_id):
+        project = Project.objects.get(id=project_id)
+        project.delete()
+
+        return DeleteProject(project_id=project_id)
+
+
 class Mutation(graphene.ObjectType):
     create_assignment = CreateAssignment.Field()
     update_assignment = UpdateAssignment.Field()
     delete_assignment = DeleteAssignment.Field()
     create_project = CreateProject.Field()
+    update_project = UpdateProject.Field()
+    delete_project = DeleteProject.Field()
