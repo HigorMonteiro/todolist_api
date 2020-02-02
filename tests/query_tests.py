@@ -1,8 +1,7 @@
 import pytest
-from graphene import Schema
 
+from task_api.schema import schema
 from .data import initialize
-from todolist.schema import Query
 
 pytestmark = pytest.mark.django_db
 
@@ -10,18 +9,24 @@ pytestmark = pytest.mark.django_db
 def test_list_assignments():
     initialize()
     query = """
-    {
-        assignments {
-            title
-            description
+        {
+            assignments {
+                title
+                description
+                projectBy {
+                id
+                }
+            }
         }
-    }
     """
     expected = {"assignments": [{
         "title": "Task One",
-        "description": "Description to task one"
+        "description": "Description to task one",
+        "projectBy": {
+            "id": "2"
+        }
     }]}
-    schema = Schema(Query)
     result = schema.execute(query)
+
     assert not result.errors
     assert result.data == expected

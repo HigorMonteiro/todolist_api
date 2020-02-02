@@ -7,9 +7,21 @@ pytestmark = pytest.mark.django_db
 
 def test_mutations():
 
+    query_project = """
+        mutation  {
+            createProject(name: "Project One"){
+                project {
+                    id
+                    name
+                }
+            }
+        }
+
+    """
     query = """
         mutation  {
         createAssignment(
+            projectBy: 1,
             title: "Task pytest",
             description: "Task pytest description")
             {
@@ -17,6 +29,10 @@ def test_mutations():
                     id
                     title
                     description
+                    projectBy {
+                        id
+                    }
+
                 }
             }
         }
@@ -26,10 +42,15 @@ def test_mutations():
             "assignment": {
                 'id': '1',
                 "title": "Task pytest",
-                "description": "Task pytest description"
+                "description": "Task pytest description",
+                "projectBy": {
+                    "id": "1"
+                }
             }
         }
     }
-    executed = schema.execute(query)
-    assert not executed.errors
-    assert dict(executed.data) == expected
+    project = schema.execute(query_project)
+    assignment = schema.execute(query)
+    assert not project.errors
+    assert not assignment.errors
+    assert dict(assignment.data) == expected
