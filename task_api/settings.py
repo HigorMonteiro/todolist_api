@@ -26,7 +26,7 @@ ADMINS = (
     ('Higor', 'higor.tecinfor@gmail.com'),
 )
 
-ALLOWED_HOSTS = ['.heroku.com', 'localhost:3000']
+ALLOWED_HOSTS = ['.heroku.com']
 # Application definition
 
 INSTALLED_APPS = [
@@ -60,6 +60,7 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'task_api.urls'
 
 CORS_ORIGIN_WHITELIST = (
+    'https://client-tasks-todolist.herokuapp.com/',
     'https://localhost:3000',
     'http://localhost:3000',
 )
