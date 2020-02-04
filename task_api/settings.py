@@ -60,7 +60,7 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'task_api.urls'
 
 CORS_ORIGIN_WHITELIST = (
-    'https://client-tasks-todolist.herokuapp.com/',
+    'https://client-tasks-todolist.herokuapp.com',
     'https://localhost:3000',
     'http://localhost:3000',
 )
