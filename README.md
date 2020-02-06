@@ -14,6 +14,7 @@ cd todolist_api/
 ```
 docker-compose build
 docker-compose run web python manage.py migrate
+docker-compose run web pytest
 docker-compose up
 ```
 ### Test Api GraphQL
